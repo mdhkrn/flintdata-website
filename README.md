@@ -44,9 +44,8 @@ src/
 
 - Home: `/` (sections About, Services, Why Flint Data, Process, Careers, Contact)
 - Privacy Policy: `/privacy-policy/`, with its content in `src/data/privacy.js`.
-  Fill in `company.legalName` and `company.address` in `src/data/content.js` so the
-  policy names the organisation responsible for the data, and have it reviewed by
-  legal counsel before launch.
+  The organisation responsible for the data comes from `company.legalName` in
+  `src/data/content.js`. Have the policy reviewed by legal counsel before launch.
 
 Both are real HTML pages (a Vite multi-page build), so they work on any static
 host with no rewrite rules.

@@ -4,17 +4,12 @@
  */
 import { company, services } from './content.js';
 
-// Identifies the organisation responsible for the data. Fill in company.legalName
-// and company.address in content.js; the sentence appears once they are set.
-const controllerBlock = company.legalName
-  ? [
-      {
-        p: `The website and the services described here are operated by ${company.legalName}${
-          company.address ? `, ${company.address}` : ''
-        }, which is responsible for the personal information described in this policy.`,
-      },
-    ]
-  : [];
+// Identifies the organisation responsible for the data (company.legalName in content.js).
+const controllerBlock = [
+  {
+    p: `The website and the services described here are operated by ${company.legalName}, which is responsible for the personal information described in this policy.`,
+  },
+];
 export const privacyMeta = {
   title: 'Privacy Policy',
   effectiveDate: '15 November 2026',

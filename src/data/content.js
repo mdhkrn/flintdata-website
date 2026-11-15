@@ -30,10 +30,8 @@ export const company = {
   domain: 'flintdata.ai',
   url: 'https://flintdata.ai',
   email: 'contact@flintdata.ai',
-  // Registered legal name and postal address, shown in the Privacy Policy when filled in.
-  // Data protection law expects the policy to identify the organisation responsible for the data.
-  legalName: '',
-  address: '',
+  // Legal name used in the Privacy Policy to identify the organisation responsible for the data.
+  legalName: 'Flint Data',
 };
 
 /** Page URLs. The site has two pages: home (/) and the privacy policy. */
