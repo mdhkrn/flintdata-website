@@ -1,13 +1,15 @@
+// Focus uses the global :focus-visible outline (index.css). An outline's offset gap shows the real
+// background, so the indicator looks right on both dark and light sections.
 const base =
-  'group inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60';
+  'group inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60';
 
 const variants = {
   primary:
-    'bg-electric-500 text-white shadow-[0_8px_30px_-8px_rgba(46,107,255,0.65)] hover:bg-electric-400 hover:shadow-[0_12px_40px_-8px_rgba(46,107,255,0.8)] hover:-translate-y-0.5 focus-visible:ring-offset-navy-950',
+    'bg-electric-500 text-white shadow-[0_8px_30px_-8px_rgba(46,107,255,0.65)] hover:bg-electric-400 hover:shadow-[0_12px_40px_-8px_rgba(46,107,255,0.8)] hover:-translate-y-0.5',
   ghost:
-    'border border-white/15 bg-white/5 text-white backdrop-blur hover:border-white/30 hover:bg-white/10 focus-visible:ring-offset-navy-950',
-  dark: 'bg-navy-900 text-white hover:bg-navy-700 hover:-translate-y-0.5 focus-visible:ring-offset-white',
-  outline: 'border border-navy-900/15 text-navy-900 hover:border-electric-500 hover:text-electric-600 focus-visible:ring-offset-white',
+    'border border-white/15 bg-white/5 text-white backdrop-blur hover:border-white/30 hover:bg-white/10',
+  dark: 'bg-navy-900 text-white hover:bg-navy-700 hover:-translate-y-0.5',
+  outline: 'border border-navy-900/15 text-navy-900 hover:border-electric-500 hover:text-electric-600',
 };
 
 const sizes = {

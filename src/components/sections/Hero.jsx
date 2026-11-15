@@ -54,7 +54,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-14">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Data we work with</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Data we work with</p>
             <ul className="mt-4 flex flex-wrap gap-2" aria-label="Data modalities">
               {modalities.map((m) => (
                 <li
@@ -68,7 +68,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="lg:col-span-6 xl:col-span-6 lg:pl-6">
+        <div className="sm:max-lg:pt-14 lg:col-span-6 lg:pl-6 xl:col-span-6">
           <HeroVisual />
         </div>
       </Container>

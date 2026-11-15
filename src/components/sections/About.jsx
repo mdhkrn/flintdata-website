@@ -43,7 +43,7 @@ export default function About() {
           />
           <Reveal delay={100} className="mt-7 space-y-5 text-[1.05rem] leading-relaxed text-slate-600">
             <p>
-              Flint Data is an AI data annotation and research company. We help organizations build better AI systems
+              Flint Data is an AI data annotation and research company. We help organisations build better AI systems
               through reliable, accurate and scalable data solutions — turning raw, unstructured information into
               training and evaluation data that models can genuinely learn from.
             </p>
@@ -95,7 +95,7 @@ export default function About() {
                   </div>
                 ))}
               </div>
-              <figcaption className="mt-4 text-xs text-slate-500">Conceptual illustration of our data refinement flow.</figcaption>
+              <figcaption className="mt-4 text-xs text-slate-400">Conceptual illustration of our data refinement flow.</figcaption>
             </div>
           </figure>
         </Reveal>

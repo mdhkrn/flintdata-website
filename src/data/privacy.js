@@ -2,6 +2,19 @@
  * Privacy Policy content. Rendered by components/pages/PrivacyPolicy.jsx.
  * Have this reviewed by qualified legal counsel before relying on it.
  */
+import { company, services } from './content.js';
+
+// Identifies the organisation responsible for the data. Fill in company.legalName
+// and company.address in content.js; the sentence appears once they are set.
+const controllerBlock = company.legalName
+  ? [
+      {
+        p: `The website and the services described here are operated by ${company.legalName}${
+          company.address ? `, ${company.address}` : ''
+        }, which is responsible for the personal information described in this policy.`,
+      },
+    ]
+  : [];
 export const privacyMeta = {
   title: 'Privacy Policy',
   effectiveDate: '15 November 2026',
@@ -16,6 +29,7 @@ export const privacySections = [
       {
         p: 'Flint Data ("Flint Data", "we", "us" or "our") is an AI data annotation and research company operating at flintdata.ai. This Privacy Policy explains what personal information we collect, how we use it, who we share it with, and the choices and rights available to you.',
       },
+      ...controllerBlock,
       {
         p: 'It applies to visitors of our website, people who contact us about our services, job applicants, and individuals whose personal information may appear in data we handle while delivering services to our clients.',
       },
@@ -35,7 +49,10 @@ export const privacySections = [
         ],
       },
       {
-        p: 'We do not use advertising or analytics cookies on this website, and we do not knowingly collect sensitive personal information through it. Please do not include sensitive personal information in the contact form.',
+        p: 'We do not use cookies, advertising or analytics on this website, and we do not knowingly collect sensitive personal information through it. Please do not include sensitive personal information in the contact form.',
+      },
+      {
+        p: 'While you fill in the contact form, your browser keeps an unsent draft in this tab’s session storage so it is not lost if you leave the page. The draft stays on your device, is never sent to us until you submit the form, and is cleared when you send it or close the tab.',
       },
     ],
   },
@@ -45,15 +62,7 @@ export const privacySections = [
     blocks: [
       { p: 'Our services include:' },
       {
-        list: [
-          'Image and video annotation',
-          'Text annotation',
-          'Audio and speech annotation',
-          'Data collection and curation',
-          'Data processing and quality assurance',
-          'AI model evaluation and research',
-          'Human-in-the-loop AI solutions',
-        ],
+        list: services.map((s) => s.title),
       },
       {
         p: 'In delivering these services, we may handle datasets supplied by our clients or collected for them. These datasets can contain personal information — for example, people visible in images or video, names or other details in text, or voices in audio recordings.',
@@ -102,14 +111,11 @@ export const privacySections = [
       { p: 'We do not sell your personal information. We share it only in these circumstances:' },
       {
         list: [
-          'Service providers — trusted providers who support our operations (such as website hosting, email and secure file storage), under obligations to protect the information and use it only on our instructions.',
+          'Service providers — trusted providers who support our operations (such as website hosting, email, and Google Workspace, where contact form submissions are stored), under obligations to protect the information and use it only on our instructions.',
           'Clients — for client data, as required to deliver the services they engaged us for.',
           'Legal requirements — where we are required to do so by law, regulation, court order or a lawful request from a public authority.',
           'Business changes — in connection with a merger, acquisition or sale of assets, subject to equivalent privacy protections.',
         ],
-      },
-      {
-        p: 'Our website loads fonts from Google Fonts. When your browser requests these fonts, Google receives technical information such as your IP address.',
       },
     ],
   },

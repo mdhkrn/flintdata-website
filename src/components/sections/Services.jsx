@@ -19,7 +19,7 @@ function ServiceCard({ service, index }) {
           <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-electric-400/25 bg-electric-500/10 text-electric-300 transition-colors duration-500 group-hover:border-electric-400 group-hover:bg-electric-500 group-hover:text-white">
             <Icon className="h-[1.35rem] w-[1.35rem]" aria-hidden="true" />
           </span>
-          <span className="font-mono text-xs text-slate-500">{String(index + 1).padStart(2, '0')}</span>
+          <span className="font-mono text-xs text-slate-400">{String(index + 1).padStart(2, '0')}</span>
         </div>
         <h3 className="relative mt-6 text-lg font-semibold leading-snug text-white">{service.title}</h3>
         <p className="relative mt-3 flex-1 text-sm leading-relaxed text-slate-400">{service.description}</p>

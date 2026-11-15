@@ -136,7 +136,7 @@ function Scene() {
       <path d="M314 266 l0 13 l3.5 -3.2 l2.6 5.6 l2.2 -1 l-2.6 -5.5 l4.8 -0.4z" fill="#fff" stroke="#040817" strokeWidth="0.8" />
 
       {/* Scan line */}
-      <g className="animate-scan" style={{ '--scan-distance': '290px' }}>
+      <g className="animate-scan motion-reduce:hidden" style={{ '--scan-distance': '290px' }}>
         <rect x="0" y="-24" width="400" height="24" fill="url(#hv-scan-glow)" />
         <rect x="0" y="0" width="400" height="1.5" fill="url(#hv-scan)" />
       </g>

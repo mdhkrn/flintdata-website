@@ -1,5 +1,9 @@
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+// Keep in sync with LIMITS in google-apps-script/Code.gs.
+export const NAME_MAX = 100;
+export const EMAIL_MAX = 254;
+export const COMPANY_MAX = 120;
 export const DETAILS_MIN = 20;
 export const DETAILS_MAX = 2000;
 
@@ -12,11 +16,13 @@ export function validateContact(values) {
 
   if (!name) errors.fullName = 'Please enter your full name.';
   else if (name.length < 2) errors.fullName = 'Name looks too short.';
+  else if (name.length > NAME_MAX) errors.fullName = `Name must be under ${NAME_MAX} characters.`;
 
   if (!email) errors.email = 'Please enter your email address.';
-  else if (!EMAIL_RE.test(email)) errors.email = 'Please enter a valid email address, e.g. name@company.com.';
+  else if (email.length > EMAIL_MAX || !EMAIL_RE.test(email))
+    errors.email = 'Please enter a valid email address, e.g. name@company.com.';
 
-  if (values.company.trim().length > 120) errors.company = 'Company name must be under 120 characters.';
+  if (values.company.trim().length > COMPANY_MAX) errors.company = `Company name must be under ${COMPANY_MAX} characters.`;
 
   if (!values.service) errors.service = 'Please choose the service you are interested in.';
 

@@ -3,14 +3,17 @@ import { Menu, X, ArrowRight } from 'lucide-react';
 import Container from '../ui/Container.jsx';
 import Logo from '../ui/Logo.jsx';
 import Button from '../ui/Button.jsx';
-import { navLinks } from '../../data/content.js';
+import { navLinks, routes, sectionHref } from '../../data/content.js';
 import { useScrollSpy, useScrolled } from '../../hooks/useScrollSpy.js';
 
-const sectionIds = navLinks.map((l) => l.id);
+// Every home-page section, including ones not in the nav (so no item stays lit there).
+const homeSectionIds = ['home', 'about', 'services', 'why-flintdata', 'process', 'careers', 'contact'];
 
-export default function Navbar() {
+/** `page` is 'home' or 'privacy'; links point back to home sections from other pages. */
+export default function Navbar({ page = 'home' }) {
+  const onHome = page === 'home';
   const [open, setOpen] = useState(false);
-  const active = useScrollSpy(sectionIds);
+  const active = useScrollSpy(onHome ? homeSectionIds : []);
   const scrolled = useScrolled();
 
   // Lock body scroll + close on Escape while the mobile menu is open
@@ -42,7 +45,11 @@ export default function Navbar() {
       }`}
     >
       <Container className="flex h-[4.5rem] items-center justify-between">
-        <a href="#home" aria-label="Flint Data — back to top" className="rounded-md">
+        <a
+          href={onHome ? '#home' : routes.home}
+          aria-label={onHome ? 'Flint Data — back to top' : 'Flint Data — home'}
+          className="rounded-md"
+        >
           <Logo />
         </a>
 
@@ -53,8 +60,8 @@ export default function Navbar() {
               return (
                 <li key={link.id}>
                   <a
-                    href={`#${link.id}`}
-                    aria-current={isActive ? 'true' : undefined}
+                    href={sectionHref(link.id, onHome)}
+                    aria-current={isActive ? 'location' : undefined}
                     className={`relative block rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-300 ${
                       isActive ? 'bg-white/10 text-white' : 'text-slate-300 hover:text-white'
                     }`}
@@ -68,7 +75,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button href="#contact" size="sm" className="max-sm:hidden">
+          <Button href={sectionHref('contact', onHome)} size="sm" className="max-sm:hidden">
             Get Started
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Button>
@@ -92,6 +99,7 @@ export default function Navbar() {
           open ? 'max-h-[32rem] opacity-100' : 'pointer-events-none max-h-0 opacity-0'
         }`}
         aria-hidden={!open}
+        inert={!open}
       >
         <Container className="pb-6 pt-2">
           <nav aria-label="Mobile">
@@ -99,8 +107,8 @@ export default function Navbar() {
               {navLinks.map((link) => (
                 <li key={link.id}>
                   <a
-                    href={`#${link.id}`}
-                    tabIndex={open ? 0 : -1}
+                    href={sectionHref(link.id, onHome)}
+                    aria-current={active === link.id ? 'location' : undefined}
                     onClick={() => setOpen(false)}
                     className={`flex items-center justify-between px-5 py-3.5 text-base font-medium transition-colors ${
                       active === link.id ? 'text-white' : 'text-slate-300 hover:text-white'
@@ -113,7 +121,7 @@ export default function Navbar() {
               ))}
             </ul>
           </nav>
-          <Button href="#contact" className="mt-4 w-full" onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
+          <Button href={sectionHref('contact', onHome)} className="mt-4 w-full" onClick={() => setOpen(false)}>
             Get Started <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Button>
         </Container>

@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 import { ArrowLeft, ShieldCheck, Mail } from 'lucide-react';
 import Container from '../ui/Container.jsx';
 import { privacyMeta, privacySections } from '../../data/privacy.js';
-import { company } from '../../data/content.js';
+import { company, routes } from '../../data/content.js';
 
 // Turns any occurrence of the company email in policy text into a mailto link.
 function withEmailLinks(text) {
@@ -19,21 +18,10 @@ function withEmailLinks(text) {
   );
 }
 
-// In-page jumps use scrollIntoView (not #hash links) so the page view stays put.
-const jumpTo = (id) => document.getElementById(`pp-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
 export default function PrivacyPolicy() {
-  useEffect(() => {
-    const previous = document.title;
-    document.title = `${privacyMeta.title} — Flint Data`;
-    return () => {
-      document.title = previous;
-    };
-  }, []);
-
   return (
     <main id="main" tabIndex={-1} className="outline-none">
-      <header className="relative overflow-hidden bg-navy-950 pb-16 pt-36 sm:pb-20 sm:pt-44">
+      <header id="top" className="relative overflow-hidden bg-navy-950 pb-16 pt-36 sm:pb-20 sm:pt-44">
         <div className="bg-grid mask-fade absolute inset-0" aria-hidden="true" />
         <div
           className="absolute left-1/2 top-[-14rem] h-[28rem] w-[56rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(46,107,255,0.25),transparent)]"
@@ -41,7 +29,7 @@ export default function PrivacyPolicy() {
         />
         <Container className="relative">
           <a
-            href="#home"
+            href={routes.home}
             className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 transition hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to home
@@ -62,17 +50,16 @@ export default function PrivacyPolicy() {
         <Container className="grid gap-12 lg:grid-cols-12">
           <nav aria-label="Privacy policy sections" className="lg:col-span-3">
             <div className="lg:sticky lg:top-28">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">On this page</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">On this page</p>
               <ol className="mt-4 space-y-1 border-l border-slate-200 text-sm">
                 {privacySections.map((s) => (
                   <li key={s.id}>
-                    <button
-                      type="button"
-                      onClick={() => jumpTo(s.id)}
-                      className="-ml-px border-l border-transparent py-1.5 pl-4 text-left text-slate-600 transition hover:border-electric-500 hover:text-electric-600"
+                    <a
+                      href={`#pp-${s.id}`}
+                      className="-ml-px block border-l border-transparent py-1.5 pl-4 text-slate-600 transition hover:border-electric-500 hover:text-electric-600"
                     >
                       {s.heading}
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ol>

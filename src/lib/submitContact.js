@@ -1,38 +1,36 @@
-import { company } from '../data/content.js';
-
 /**
  * Contact form submission.
  *
- * If CONTACT_ENDPOINT is set (your own API, a CRM webhook or a form service),
- * the form posts JSON there. While it is empty, the form prepares an email to
- * contact@flintdata.ai instead, so no inquiry is silently lost.
+ * Submissions go to the Google Apps Script web app set in VITE_CONTACT_ENDPOINT
+ * (see google-apps-script/README.md), which appends a row to the
+ * "Flint Business Requests" Google Sheet.
  */
-export const CONTACT_ENDPOINT = ''; // e.g. 'https://api.flintdata.ai/contact'
+export const CONTACT_ENDPOINT = (import.meta.env.VITE_CONTACT_ENDPOINT || '').trim();
 
-export function buildMailto(payload) {
-  const subject = `Project inquiry — ${payload.service}`;
-  const body = [
-    `Name: ${payload.fullName}`,
-    `Email: ${payload.email}`,
-    `Company: ${payload.company || '—'}`,
-    `Service: ${payload.service}`,
-    '',
-    'Project details:',
-    payload.details,
-  ].join('\n');
-  return `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
+const REQUEST_TIMEOUT_MS = 15000;
 
+/** Resolves when the request is stored in the sheet; throws otherwise. */
 export async function submitContact(payload) {
   if (!CONTACT_ENDPOINT) {
-    return { ok: true, delivered: false, mailto: buildMailto(payload) };
+    // Never show "thank you" for a request that went nowhere.
+    console.error('VITE_CONTACT_ENDPOINT is not set — see google-apps-script/README.md');
+    throw new Error('Contact form endpoint is not configured');
   }
 
-  const res = await fetch(CONTACT_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
-  return { ok: true, delivered: true };
+  // Form-encoded body keeps this a "simple" CORS request (no preflight),
+  // which is what Google Apps Script web apps accept.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    const res = await fetch(CONTACT_ENDPOINT, {
+      method: 'POST',
+      body: new URLSearchParams(payload),
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+    const data = await res.json().catch(() => null);
+    if (!data?.ok) throw new Error(data?.error || 'Unexpected response from the form service');
+  } finally {
+    clearTimeout(timer);
+  }
 }

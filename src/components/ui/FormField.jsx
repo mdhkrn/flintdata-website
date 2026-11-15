@@ -35,7 +35,7 @@ export default function FormField({
             </span>
           )}
         </label>
-        {optional && <span className="text-xs text-slate-400">Optional</span>}
+        {optional && <span className="text-xs text-slate-500">Optional</span>}
       </div>
       <Control
         id={id}
@@ -60,7 +60,9 @@ export default function FormField({
       </Control>
       <div className="mt-1.5 flex min-h-5 items-start justify-between gap-3 text-xs">
         {error ? (
-          <p id={`${id}-error`} className="flex items-center gap-1.5 font-medium text-rose-600" role="alert">
+          // No role="alert": on submit, focus moves to the first invalid field, which reads its error
+          // via aria-describedby; per-field alerts would announce every error at once.
+          <p id={`${id}-error`} className="flex items-center gap-1.5 font-medium text-rose-600">
             <CircleAlert className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             {error}
           </p>
@@ -68,7 +70,7 @@ export default function FormField({
           <span />
         )}
         {hint && (
-          <p id={`${id}-hint`} className="shrink-0 text-slate-400">
+          <p id={`${id}-hint`} className="shrink-0 text-slate-500">
             {hint}
           </p>
         )}

@@ -1,0 +1,15 @@
+# Dependencies & build output
+node_modules/
+dist/
+*.local
+
+# Environment overrides (the committed .env holds only public values)
+.env.local
+.env.*.local
+
+# Logs & OS/editor files
+npm-debug.log*
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

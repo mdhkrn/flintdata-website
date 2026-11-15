@@ -1,16 +1,49 @@
-import { useRef, useState } from 'react';
-import { Mail, Send, LoaderCircle, CircleCheck, RotateCcw } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Send, LoaderCircle, CircleCheck } from 'lucide-react';
 import Section from '../ui/Section.jsx';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import Reveal from '../ui/Reveal.jsx';
 import FormField from '../ui/FormField.jsx';
 import Button from '../ui/Button.jsx';
-import { company, services } from '../../data/content.js';
-import { validateContact, DETAILS_MAX } from '../../lib/validateContact.js';
+import { company, services, routes } from '../../data/content.js';
+import { validateContact, NAME_MAX, EMAIL_MAX, COMPANY_MAX, DETAILS_MAX } from '../../lib/validateContact.js';
 import { submitContact } from '../../lib/submitContact.js';
 
 const initialValues = { fullName: '', email: '', company: '', service: '', details: '', website: '' };
 const fieldOrder = ['fullName', 'email', 'company', 'service', 'details'];
+
+// Unsent drafts survive navigating away and back within the tab (sessionStorage only,
+// never sent anywhere). Storage can be unavailable, so every access is guarded.
+const DRAFT_KEY = 'flintdata:contact-draft';
+function loadDraft() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null');
+    if (!saved || typeof saved !== 'object') return initialValues;
+    const draft = { ...initialValues };
+    fieldOrder.forEach((f) => {
+      if (typeof saved[f] === 'string') draft[f] = saved[f];
+    });
+    return draft;
+  } catch {
+    return initialValues;
+  }
+}
+function saveDraft(values) {
+  try {
+    const { website, ...fields } = values;
+    if (Object.values(fields).some(Boolean)) sessionStorage.setItem(DRAFT_KEY, JSON.stringify(fields));
+    else sessionStorage.removeItem(DRAFT_KEY);
+  } catch {
+    /* storage unavailable — drafts just aren't kept */
+  }
+}
+function clearDraft() {
+  try {
+    sessionStorage.removeItem(DRAFT_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 const nextSteps = [
   'We review your requirements and data types.',
@@ -19,12 +52,21 @@ const nextSteps = [
 ];
 
 export default function Contact() {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(loadDraft);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
-  const [result, setResult] = useState(null);
   const formRef = useRef(null);
+  const successHeadingRef = useRef(null);
+
+  useEffect(() => {
+    if (status !== 'success') saveDraft(values);
+  }, [values, status]);
+
+  // Move focus to the confirmation so keyboard and screen-reader users land on it.
+  useEffect(() => {
+    if (status === 'success') successHeadingRef.current?.focus();
+  }, [status]);
 
   const update = (e) => {
     const { name, value } = e.target;
@@ -41,7 +83,6 @@ export default function Contact() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (values.website) return; // honeypot: silently ignore bots
 
     const found = validateContact(values);
     setErrors(found);
@@ -55,25 +96,27 @@ export default function Contact() {
 
     setStatus('submitting');
     try {
-      const { website, ...payload } = values;
-      const res = await submitContact({ ...payload, submittedAt: new Date().toISOString() });
-      setResult(res);
+      const payload = {
+        fullName: values.fullName.trim(),
+        email: values.email.trim(),
+        company: values.company.trim(),
+        service: values.service,
+        details: values.details.trim(),
+        // Honeypot: sent along so the sheet can flag likely bots instead of the
+        // browser silently dropping a request a real person's autofill triggered.
+        website: values.website,
+        submittedAt: new Date().toISOString(),
+      };
+      await submitContact(payload);
       setStatus('success');
+      clearDraft();
     } catch {
       setStatus('error');
     }
   };
 
-  const reset = () => {
-    setValues(initialValues);
-    setErrors({});
-    setTouched({});
-    setStatus('idle');
-    setResult(null);
-  };
-
   const err = (f) => (touched[f] ? errors[f] : undefined);
-  const firstName = values.fullName.trim().split(' ')[0];
+  const firstName = values.fullName.trim().split(/\s+/)[0];
 
   return (
     <Section id="contact" tone="light" labelledBy="contact-title">
@@ -106,43 +149,18 @@ export default function Contact() {
         <Reveal delay={120} className="lg:col-span-7">
           <div className="relative rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_40px_100px_-50px_rgba(7,14,36,0.45)] sm:p-10">
             {status === 'success' ? (
-              <div className="flex min-h-[26rem] flex-col items-center justify-center text-center" role="status" aria-live="polite">
+              <div className="flex min-h-[26rem] flex-col items-center justify-center text-center">
                 <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-8 ring-emerald-50/60">
                   <CircleCheck className="h-8 w-8" aria-hidden="true" />
                 </span>
-                {result?.delivered ? (
-                  <>
-                    <h3 className="mt-6 text-2xl font-semibold tracking-tight text-navy-900">
-                      Thank you{firstName ? `, ${firstName}` : ''}!
-                    </h3>
-                    <p className="mt-3 max-w-md text-slate-600">
-                      We&apos;ve received your request and will reply to{' '}
-                      <span className="font-medium text-navy-900">{values.email.trim()}</span>.
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <h3 className="mt-6 text-2xl font-semibold tracking-tight text-navy-900">
-                      Almost done{firstName ? `, ${firstName}` : ''}!
-                    </h3>
-                    <p className="mt-3 max-w-md text-slate-600">
-                      Your request is ready. Send it from your email app and our team will reply to{' '}
-                      <span className="font-medium text-navy-900">{values.email.trim()}</span>.
-                    </p>
-                    <Button href={result?.mailto} size="lg" className="mt-7">
-                      <Mail className="h-4 w-4" aria-hidden="true" /> Send via email
-                    </Button>
-                    <p className="mt-4 text-sm text-slate-500">
-                      Or write to us directly at{' '}
-                      <a href={`mailto:${company.email}`} className="font-medium text-electric-600 hover:underline">
-                        {company.email}
-                      </a>
-                    </p>
-                  </>
-                )}
-                <Button variant="outline" size="sm" className="mt-6" onClick={reset}>
-                  <RotateCcw className="h-4 w-4" aria-hidden="true" /> Send another request
-                </Button>
+                <h3
+                  ref={successHeadingRef}
+                  tabIndex={-1}
+                  className="mt-6 text-2xl font-semibold tracking-tight text-navy-900 outline-none"
+                >
+                  Thank you{firstName ? `, ${firstName}` : ''}!
+                </h3>
+                <p className="mt-3 max-w-md text-slate-600">We&apos;ve received your request. We will contact you soon.</p>
               </div>
             ) : (
               <form ref={formRef} onSubmit={onSubmit} noValidate aria-describedby="form-note">
@@ -159,6 +177,7 @@ export default function Contact() {
                     label="Full Name"
                     required
                     autoComplete="name"
+                    maxLength={NAME_MAX}
                     placeholder="Jane Doe"
                     value={values.fullName}
                     onChange={update}
@@ -172,6 +191,7 @@ export default function Contact() {
                     required
                     autoComplete="email"
                     inputMode="email"
+                    maxLength={EMAIL_MAX}
                     placeholder="jane@company.com"
                     value={values.email}
                     onChange={update}
@@ -183,6 +203,7 @@ export default function Contact() {
                     label="Company"
                     optional
                     autoComplete="organization"
+                    maxLength={COMPANY_MAX}
                     placeholder="Company name"
                     value={values.company}
                     onChange={update}
@@ -228,28 +249,38 @@ export default function Contact() {
 
                 {/* Honeypot — hidden from people, tempting to bots */}
                 <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
-                  <label htmlFor="website">Website</label>
+                  <label htmlFor="website">Leave this field empty</label>
                   <input id="website" name="website" tabIndex={-1} autoComplete="off" value={values.website} onChange={update} />
                 </div>
 
                 {status === 'error' && (
                   <p className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">
-                    Something went wrong while sending your request. Please try again in a moment.
+                    Something went wrong while sending your request. Please try again in a moment, or email us at{' '}
+                    <a href={`mailto:${company.email}`} className="font-semibold underline underline-offset-2">
+                      {company.email}
+                    </a>
+                    .
                   </p>
                 )}
 
                 <div className="mt-6 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
-                  <p className="max-w-xs text-xs leading-relaxed text-slate-400">
+                  <p className="max-w-xs text-xs leading-relaxed text-slate-500">
                     We use your details only to respond to this inquiry. See our{' '}
-                    <a href="#privacy-policy" className="font-medium text-electric-600 underline-offset-2 hover:underline">
+                    <a
+                      href={routes.privacy}
+                      target="_blank"
+                      rel="noopener"
+                      className="font-medium text-electric-600 underline-offset-2 hover:underline"
+                    >
                       Privacy Policy
+                      <span className="sr-only"> (opens in a new tab)</span>
                     </a>
                     .
                   </p>
                   <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={status === 'submitting'}>
                     {status === 'submitting' ? (
                       <>
-                        <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> Preparing…
+                        <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> Sending…
                       </>
                     ) : (
                       <>

@@ -1,18 +1,20 @@
 import { Mail, ArrowUp } from 'lucide-react';
 import Container from '../ui/Container.jsx';
 import Logo from '../ui/Logo.jsx';
-import { company, navLinks, services } from '../../data/content.js';
+import { company, navLinks, services, routes, sectionHref } from '../../data/content.js';
 
 function FooterColumn({ title, children }) {
   return (
     <div>
-      <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">{title}</h2>
+      <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{title}</h2>
       <div className="mt-5">{children}</div>
     </div>
   );
 }
 
-export default function Footer() {
+/** `page` is 'home' or 'privacy'. */
+export default function Footer({ page = 'home' }) {
+  const onHome = page === 'home';
   const year = new Date().getFullYear();
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-navy-950 text-slate-400" aria-labelledby="footer-title">
@@ -38,7 +40,7 @@ export default function Footer() {
               <ul className="space-y-3 text-sm">
                 {navLinks.map((l) => (
                   <li key={l.id}>
-                    <a href={`#${l.id}`} className="transition hover:text-white">
+                    <a href={sectionHref(l.id, onHome)} className="transition hover:text-white">
                       {l.label}
                     </a>
                   </li>
@@ -52,7 +54,7 @@ export default function Footer() {
               <ul className="space-y-3 text-sm">
                 {services.map((s) => (
                   <li key={s.id}>
-                    <a href="#services" className="transition hover:text-white">
+                    <a href={sectionHref('services', onHome)} className="transition hover:text-white">
                       {s.title}
                     </a>
                   </li>
@@ -78,17 +80,17 @@ export default function Footer() {
         <div className="flex flex-col items-start justify-between gap-4 border-t border-white/10 py-7 text-xs sm:flex-row sm:items-center">
           <p className="leading-relaxed">
             © {year} Flint Data. All rights reserved.
-            <span className="mx-2 text-slate-600" aria-hidden="true">·</span>
-            <a href={`mailto:${company.email}`} className="transition hover:text-white">
-              {company.email}
-            </a>
           </p>
           <div className="flex items-center gap-6">
-            <a href="#privacy-policy" className="transition hover:text-white">
+            <a
+              href={routes.privacy}
+              aria-current={onHome ? undefined : 'page'}
+              className={`transition hover:text-white ${onHome ? '' : 'text-white'}`}
+            >
               Privacy Policy
             </a>
             <a
-              href="#home"
+              href={onHome ? '#home' : '#top'}
               className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 transition hover:border-electric-400 hover:text-white"
             >
               <ArrowUp className="h-3.5 w-3.5" aria-hidden="true" /> Back to top

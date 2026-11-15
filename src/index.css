@@ -1,11 +1,13 @@
 @import "tailwindcss";
+/* Inter, self-hosted (no third-party font requests) */
+@import "@fontsource-variable/inter";
 
 /* ------------------------------------------------------------------
    Design tokens — Flint Data
    Dark navy foundation, white surfaces, electric-blue signal colour.
 ------------------------------------------------------------------- */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --color-navy-950: #040817;
   --color-navy-900: #070e24;

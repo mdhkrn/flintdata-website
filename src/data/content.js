@@ -26,11 +26,24 @@ export const company = {
   name: 'Flint Data',
   tagline: 'Powering AI with Human-Quality Data.',
   description:
-    'Flint Data is an AI data annotation and research company helping organizations build better AI systems through reliable, accurate and scalable data solutions.',
+    'Flint Data is an AI data annotation and research company helping organisations build better AI systems through reliable, accurate and scalable data solutions.',
   domain: 'flintdata.ai',
   url: 'https://flintdata.ai',
   email: 'contact@flintdata.ai',
+  // Registered legal name and postal address, shown in the Privacy Policy when filled in.
+  // Data protection law expects the policy to identify the organisation responsible for the data.
+  legalName: '',
+  address: '',
 };
+
+/** Page URLs. The site has two pages: home (/) and the privacy policy. */
+export const routes = {
+  home: '/',
+  privacy: '/privacy-policy/',
+};
+
+/** Link to a home-page section from any page: '#about' on home, '/#about' elsewhere. */
+export const sectionHref = (id, onHome) => (onHome ? `#${id}` : `${routes.home}#${id}`);
 
 export const navLinks = [
   { id: 'home', label: 'Home' },
@@ -41,6 +54,14 @@ export const navLinks = [
 ];
 
 export const services = [
+  {
+    id: 'image-video',
+    icon: ScanLine,
+    title: 'Image and Video Annotation',
+    description:
+      'Bounding boxes, polygons, semantic and instance segmentation, keypoints and frame-accurate object tracking for computer vision models.',
+    tags: ['Bounding boxes', 'Segmentation', 'Tracking'],
+  },
   {
     id: 'text',
     icon: FileText,
@@ -62,23 +83,15 @@ export const services = [
     icon: Database,
     title: 'Data Collection and Curation',
     description:
-      'Sourcing, filtering and organizing representative datasets that match your target domain, edge cases and distribution needs.',
+      'Sourcing, filtering and organising representative datasets that match your target domain, edge cases and distribution needs.',
     tags: ['Sourcing', 'Filtering', 'Balancing'],
-  },
-  {
-    id: 'image-video',
-    icon: ScanLine,
-    title: 'Image and Video Annotation',
-    description:
-      'Bounding boxes, polygons, semantic and instance segmentation, keypoints and frame-accurate object tracking for computer vision models.',
-    tags: ['Bounding boxes', 'Segmentation', 'Tracking'],
   },
   {
     id: 'processing-qa',
     icon: ShieldCheck,
     title: 'Data Processing and Quality Assurance',
     description:
-      'Cleaning, normalization, de-duplication and multi-layer review workflows that keep every dataset consistent and audit-ready.',
+      'Cleaning, normalisation, de-duplication and multi-layer review workflows that keep every dataset consistent and audit-ready.',
     tags: ['Cleaning', 'Review layers', 'Consistency'],
   },
   {
