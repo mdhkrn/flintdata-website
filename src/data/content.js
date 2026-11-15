@@ -1,7 +1,6 @@
 /**
  * Site content — single source of truth.
- * Anything wrapped in [Placeholder: …] is business information FlintData
- * still needs to supply. Search the codebase for "Placeholder" to find them all.
+ * Edit copy here; components render from these objects.
  */
 import {
   ScanLine,
@@ -10,15 +9,7 @@ import {
   Database,
   ShieldCheck,
   FlaskConical,
-  Box,
   Users,
-  HeartPulse,
-  Car,
-  ShoppingCart,
-  Sprout,
-  Bot,
-  GraduationCap,
-  Cpu,
   Target,
   UserCheck,
   Lock,
@@ -32,35 +23,24 @@ import {
 } from 'lucide-react';
 
 export const company = {
-  name: 'FlintData',
+  name: 'Flint Data',
   tagline: 'Powering AI with Human-Quality Data.',
   description:
-    'FlintData is an AI data annotation and research company helping organizations build better AI systems through reliable, accurate and scalable data solutions.',
-  email: '[Placeholder: hello@yourdomain.com]',
-  careersEmail: '[Placeholder: careers@yourdomain.com]',
-  phone: '[Placeholder: +00 000 000 0000]',
-  address: '[Placeholder: Office address, City, Country]',
-  hours: '[Placeholder: Business hours & time zone]',
+    'Flint Data is an AI data annotation and research company helping organizations build better AI systems through reliable, accurate and scalable data solutions.',
+  domain: 'flintdata.ai',
+  url: 'https://flintdata.ai',
+  email: 'contact@flintdata.ai',
 };
 
 export const navLinks = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
   { id: 'services', label: 'Services' },
-  { id: 'industries', label: 'Industries' },
   { id: 'careers', label: 'Careers' },
   { id: 'contact', label: 'Contact' },
 ];
 
 export const services = [
-  {
-    id: 'image-video',
-    icon: ScanLine,
-    title: 'Image and Video Annotation',
-    description:
-      'Bounding boxes, polygons, semantic and instance segmentation, keypoints and frame-accurate object tracking for computer vision models.',
-    tags: ['Bounding boxes', 'Segmentation', 'Tracking'],
-  },
   {
     id: 'text',
     icon: FileText,
@@ -86,6 +66,14 @@ export const services = [
     tags: ['Sourcing', 'Filtering', 'Balancing'],
   },
   {
+    id: 'image-video',
+    icon: ScanLine,
+    title: 'Image and Video Annotation',
+    description:
+      'Bounding boxes, polygons, semantic and instance segmentation, keypoints and frame-accurate object tracking for computer vision models.',
+    tags: ['Bounding boxes', 'Segmentation', 'Tracking'],
+  },
+  {
     id: 'processing-qa',
     icon: ShieldCheck,
     title: 'Data Processing and Quality Assurance',
@@ -102,79 +90,12 @@ export const services = [
     tags: ['Human eval', 'Benchmarks', 'Red-teaming'],
   },
   {
-    id: 'lidar',
-    icon: Box,
-    title: 'LiDAR and 3D Point Cloud Annotation',
-    description:
-      '3D cuboids, point-level segmentation and sensor-fusion labelling for autonomous systems, mapping and spatial AI.',
-    tags: ['3D cuboids', 'Point segmentation', 'Sensor fusion'],
-  },
-  {
     id: 'hitl',
     icon: Users,
     title: 'Human-in-the-Loop AI Solutions',
     description:
       'Expert reviewers embedded in your pipeline to validate predictions, handle low-confidence cases and continuously improve models.',
     tags: ['Validation', 'Edge cases', 'Active learning'],
-  },
-];
-
-export const industries = [
-  {
-    id: 'healthcare',
-    icon: HeartPulse,
-    name: 'Healthcare',
-    summary:
-      'Carefully handled annotation for medical imaging, clinical text and health-related AI, with privacy built into every workflow.',
-    useCases: ['Medical image segmentation', 'Clinical text entity extraction', 'Diagnostic model evaluation'],
-  },
-  {
-    id: 'automotive',
-    icon: Car,
-    name: 'Automotive',
-    summary:
-      'Perception data for driver assistance and autonomous driving, from camera frames to multi-sensor LiDAR scenes.',
-    useCases: ['2D/3D object detection', 'Lane and drivable-area labelling', 'Sensor-fusion annotation'],
-  },
-  {
-    id: 'retail',
-    icon: ShoppingCart,
-    name: 'Retail and E-commerce',
-    summary:
-      'Structured product and customer data that powers search, recommendations, visual commerce and support automation.',
-    useCases: ['Product attribute tagging', 'Search relevance rating', 'Review sentiment analysis'],
-  },
-  {
-    id: 'agriculture',
-    icon: Sprout,
-    name: 'Agriculture',
-    summary:
-      'Field, aerial and satellite imagery annotation that helps models monitor crops, detect issues and support decisions.',
-    useCases: ['Crop and weed segmentation', 'Plant health classification', 'Aerial imagery labelling'],
-  },
-  {
-    id: 'robotics',
-    icon: Bot,
-    name: 'Robotics',
-    summary:
-      'Spatial, visual and interaction data that teaches robots to perceive, grasp and navigate complex environments.',
-    useCases: ['Object pose and keypoints', '3D scene understanding', 'Task demonstration labelling'],
-  },
-  {
-    id: 'education',
-    icon: GraduationCap,
-    name: 'Education',
-    summary:
-      'Learning-focused datasets for tutoring systems, assessment tools and accessible educational content.',
-    useCases: ['Answer and rubric grading', 'Content difficulty tagging', 'Speech data for language learning'],
-  },
-  {
-    id: 'technology',
-    icon: Cpu,
-    name: 'Technology and AI',
-    summary:
-      'Training, fine-tuning and evaluation data for teams building foundation models, assistants and AI-native products.',
-    useCases: ['Instruction and preference data', 'LLM output evaluation', 'Multimodal dataset creation'],
   },
 ];
 
@@ -243,21 +164,4 @@ export const processSteps = [
     title: 'Delivery and Feedback',
     description: 'Data ships in your preferred format, and your feedback refines the next iteration.',
   },
-];
-
-export const careerAreas = [
-  'Data Annotation Specialists',
-  'Quality Assurance Reviewers',
-  'Domain Experts',
-  'Project & Delivery Managers',
-  'AI Research & Evaluation',
-  'Engineering & Tooling',
-];
-
-export const socialLinks = [
-  // [Placeholder] Replace "#" with real profile URLs
-  { id: 'linkedin', label: 'FlintData on LinkedIn', href: '#' },
-  { id: 'x', label: 'FlintData on X', href: '#' },
-  { id: 'github', label: 'FlintData on GitHub', href: '#' },
-  { id: 'youtube', label: 'FlintData on YouTube', href: '#' },
 ];

@@ -3,7 +3,7 @@ import Container from '../ui/Container.jsx';
 import Button from '../ui/Button.jsx';
 import HeroVisual from './HeroVisual.jsx';
 
-const modalities = ['Image', 'Video', 'Text', 'Audio', 'LiDAR', '3D', 'Model Evaluation'];
+const modalities = ['Image', 'Video', 'Text', 'Audio', 'Model Evaluation'];
 
 export default function Hero() {
   return (
@@ -24,7 +24,7 @@ export default function Hero() {
         <div className="lg:col-span-6 xl:col-span-6">
           <p className="reveal is-visible mb-7 inline-flex items-center gap-2 rounded-full border border-electric-400/25 bg-electric-500/10 py-1.5 pl-2 pr-4 text-xs font-medium text-electric-200">
             <span className="rounded-full bg-electric-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-              FlintData
+              Flint Data
             </span>
             AI Data Annotation &amp; Research
           </p>

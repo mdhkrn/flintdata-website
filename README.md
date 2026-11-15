@@ -1,4 +1,4 @@
-# FlintData — Corporate Website
+# Flint Data — Corporate Website
 
 React 19 + Tailwind CSS v4 + Lucide icons, built with Vite.
 
@@ -19,34 +19,33 @@ src/
   main.jsx                     React entry
   App.jsx                      Page composition + skip link
   index.css                    Tailwind import, design tokens (@theme), animations
-  data/content.js              ALL site copy, services, industries, placeholders
+  data/content.js              Site copy, services, company details
+  data/privacy.js              Privacy Policy text
   hooks/useInView.js           Scroll-reveal observer
   hooks/useScrollSpy.js        Active nav section + scrolled state
   lib/validateContact.js       Contact form validation rules
   lib/submitContact.js         Form submission (connect your endpoint here)
   components/ui/               Reusable building blocks
     Button, Container, Section, SectionHeading, Reveal,
-    FormField, Placeholder, Logo
+    FormField, Logo
+  components/pages/PrivacyPolicy.jsx
   components/sections/         Page sections
-    Navbar, Hero, HeroVisual, About, Services, Industries,
+    Navbar, Hero, HeroVisual, About, Services,
     WhyChoose, Process, Careers, Contact, Footer
 ```
 
-## Before launch — replace placeholders
+## Pages
 
-Search the project for `Placeholder` / `[PLACEHOLDER]`. They are shown on the
-page with an amber dashed badge so none slip through:
+- Home (`#home`, with sections About, Services, Why Flint Data, Process, Careers, Contact)
+- Privacy Policy (`#privacy-policy`), with its content in `src/data/privacy.js`.
+  Have it reviewed by legal counsel before launch.
 
-- Email, phone, office address, business hours, careers email (`src/data/content.js`)
-- Founded year, headquarters, team size (`About.jsx`)
-- Social profile URLs (`socialLinks` in `content.js`)
-- Open-positions link, Privacy Policy and Terms links, registered company details
-- Canonical URL, `og:url`, `og:image` and JSON-LD `url` (`index.html`)
-- **Form backend:** set `CONTACT_ENDPOINT` in `src/lib/submitContact.js`. Until
-  then, the form validates and shows a success screen, but nothing is sent anywhere.
+## Contact form
 
-No customer names, certifications, statistics or testimonials are included.
-Add them only once they are real and approved.
+The form validates entries in the browser. When `CONTACT_ENDPOINT` in
+`src/lib/submitContact.js` is empty, it prepares a pre-filled email to
+contact@flintdata.ai. Set the endpoint to post submissions to your own backend,
+CRM or form service instead.
 
 ## Design system
 
@@ -57,7 +56,7 @@ Font: Inter. Motion respects `prefers-reduced-motion`.
 ## Accessibility & performance notes
 
 - Semantic landmarks, one `h1`, ordered `h2`/`h3` headings, skip link
-- Keyboard-operable mobile menu (Escape closes) and an ARIA tablist for Industries (arrow keys / Home / End)
+- Keyboard-operable mobile menu (Escape closes)
 - Labelled form fields with `aria-invalid`, `aria-describedby` error messages, and focus moved to the first invalid field
 - The hero illustration is inline SVG/CSS, so there are no image downloads
 - The only external requests are for fonts, which load with `display=swap`

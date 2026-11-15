@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-/** FlintData wordmark: a spark-in-a-tile mark + logotype. */
+/** Flint Data wordmark: a spark-in-a-tile mark + logotype. */
 export default function Logo({ className = '', tone = 'dark' }) {
   const gradientId = useId();
   return (
@@ -17,7 +17,7 @@ export default function Logo({ className = '', tone = 'dark' }) {
         <path d="M17.5 5 9 18h6l-1.5 9L23 13.5h-6.2z" fill={`url(#${gradientId})`} />
       </svg>
       <span className={`text-[1.15rem] font-bold tracking-tight ${tone === 'dark' ? 'text-white' : 'text-navy-900'}`}>
-        Flint<span className="text-electric-400">Data</span>
+        Flint <span className="text-electric-400">Data</span>
       </span>
     </span>
   );

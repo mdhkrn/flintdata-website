@@ -1,9 +1,8 @@
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, LoaderCircle, CircleCheck, RotateCcw } from 'lucide-react';
+import { Mail, Send, LoaderCircle, CircleCheck, RotateCcw } from 'lucide-react';
 import Section from '../ui/Section.jsx';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import Reveal from '../ui/Reveal.jsx';
-import Placeholder from '../ui/Placeholder.jsx';
 import FormField from '../ui/FormField.jsx';
 import Button from '../ui/Button.jsx';
 import { company, services } from '../../data/content.js';
@@ -12,13 +11,6 @@ import { submitContact } from '../../lib/submitContact.js';
 
 const initialValues = { fullName: '', email: '', company: '', service: '', details: '', website: '' };
 const fieldOrder = ['fullName', 'email', 'company', 'service', 'details'];
-
-const contactItems = [
-  { icon: Mail, label: 'Email', value: company.email },
-  { icon: Phone, label: 'Phone', value: company.phone },
-  { icon: MapPin, label: 'Office', value: company.address },
-  { icon: Clock, label: 'Hours', value: company.hours },
-];
 
 const nextSteps = [
   'We review your requirements and data types.',
@@ -96,22 +88,6 @@ export default function Contact() {
             lead="Tell us about your data, your model and your goals. Our team will get back to you to discuss the right approach."
           />
 
-          <Reveal delay={100} className="mt-10 space-y-4">
-            {contactItems.map(({ icon: Icon, label, value }) => (
-              <div key={label} className="flex items-center gap-4">
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-electric-600">
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-xs font-medium uppercase tracking-wider text-slate-400">{label}</p>
-                  <p className="mt-1 text-sm">
-                    <Placeholder tone="light">{value}</Placeholder>
-                  </p>
-                </div>
-              </div>
-            ))}
-          </Reveal>
-
           <Reveal delay={160} className="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
             <h3 className="text-sm font-semibold text-navy-900">What happens next</h3>
             <ol className="mt-4 space-y-3">
@@ -130,25 +106,41 @@ export default function Contact() {
         <Reveal delay={120} className="lg:col-span-7">
           <div className="relative rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_40px_100px_-50px_rgba(7,14,36,0.45)] sm:p-10">
             {status === 'success' ? (
-              <div className="flex min-h-[30rem] flex-col items-center justify-center text-center" role="status" aria-live="polite">
+              <div className="flex min-h-[26rem] flex-col items-center justify-center text-center" role="status" aria-live="polite">
                 <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-8 ring-emerald-50/60">
                   <CircleCheck className="h-8 w-8" aria-hidden="true" />
                 </span>
-                <h3 className="mt-6 text-2xl font-semibold tracking-tight text-navy-900">
-                  Thank you{firstName ? `, ${firstName}` : ''}!
-                </h3>
-                <p className="mt-3 max-w-md text-slate-600">
-                  Your project details are complete. Our team will review your request and reply to{' '}
-                  <span className="font-medium text-navy-900">{values.email.trim()}</span>.
-                </p>
-                {result && !result.delivered && (
-                  <p className="mt-5 max-w-md text-sm">
-                    <Placeholder tone="light">
-                      Form backend not connected yet — set CONTACT_ENDPOINT in src/lib/submitContact.js to receive submissions
-                    </Placeholder>
-                  </p>
+                {result?.delivered ? (
+                  <>
+                    <h3 className="mt-6 text-2xl font-semibold tracking-tight text-navy-900">
+                      Thank you{firstName ? `, ${firstName}` : ''}!
+                    </h3>
+                    <p className="mt-3 max-w-md text-slate-600">
+                      We&apos;ve received your request and will reply to{' '}
+                      <span className="font-medium text-navy-900">{values.email.trim()}</span>.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="mt-6 text-2xl font-semibold tracking-tight text-navy-900">
+                      Almost done{firstName ? `, ${firstName}` : ''}!
+                    </h3>
+                    <p className="mt-3 max-w-md text-slate-600">
+                      Your request is ready. Send it from your email app and our team will reply to{' '}
+                      <span className="font-medium text-navy-900">{values.email.trim()}</span>.
+                    </p>
+                    <Button href={result?.mailto} size="lg" className="mt-7">
+                      <Mail className="h-4 w-4" aria-hidden="true" /> Send via email
+                    </Button>
+                    <p className="mt-4 text-sm text-slate-500">
+                      Or write to us directly at{' '}
+                      <a href={`mailto:${company.email}`} className="font-medium text-electric-600 hover:underline">
+                        {company.email}
+                      </a>
+                    </p>
+                  </>
                 )}
-                <Button variant="outline" className="mt-8" onClick={reset}>
+                <Button variant="outline" size="sm" className="mt-6" onClick={reset}>
                   <RotateCcw className="h-4 w-4" aria-hidden="true" /> Send another request
                 </Button>
               </div>
@@ -248,13 +240,16 @@ export default function Contact() {
 
                 <div className="mt-6 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
                   <p className="max-w-xs text-xs leading-relaxed text-slate-400">
-                    We use your details only to respond to this inquiry.{' '}
-                    <Placeholder tone="light">Link to Privacy Policy</Placeholder>
+                    We use your details only to respond to this inquiry. See our{' '}
+                    <a href="#privacy-policy" className="font-medium text-electric-600 underline-offset-2 hover:underline">
+                      Privacy Policy
+                    </a>
+                    .
                   </p>
                   <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={status === 'submitting'}>
                     {status === 'submitting' ? (
                       <>
-                        <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> Sending…
+                        <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> Preparing…
                       </>
                     ) : (
                       <>

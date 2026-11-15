@@ -1,17 +1,31 @@
+import { company } from '../data/content.js';
+
 /**
- * [Placeholder] Contact form submission.
+ * Contact form submission.
  *
- * Set CONTACT_ENDPOINT to your form backend (your own API, a CRM webhook,
- * or a form service). Until it is set, submissions are NOT delivered anywhere —
- * the UI tells the visitor so, rather than pretending the message was sent.
+ * If CONTACT_ENDPOINT is set (your own API, a CRM webhook or a form service),
+ * the form posts JSON there. While it is empty, the form prepares an email to
+ * contact@flintdata.ai instead, so no inquiry is silently lost.
  */
-export const CONTACT_ENDPOINT = ''; // e.g. 'https://api.yourdomain.com/contact'
+export const CONTACT_ENDPOINT = ''; // e.g. 'https://api.flintdata.ai/contact'
+
+export function buildMailto(payload) {
+  const subject = `Project inquiry — ${payload.service}`;
+  const body = [
+    `Name: ${payload.fullName}`,
+    `Email: ${payload.email}`,
+    `Company: ${payload.company || '—'}`,
+    `Service: ${payload.service}`,
+    '',
+    'Project details:',
+    payload.details,
+  ].join('\n');
+  return `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 export async function submitContact(payload) {
   if (!CONTACT_ENDPOINT) {
-    // Simulate latency so the loading state is visible during development.
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    return { ok: true, delivered: false };
+    return { ok: true, delivered: false, mailto: buildMailto(payload) };
   }
 
   const res = await fetch(CONTACT_ENDPOINT, {

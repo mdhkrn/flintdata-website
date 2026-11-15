@@ -1,4 +1,4 @@
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, Sparkles } from 'lucide-react';
 import Section from '../ui/Section.jsx';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import Reveal from '../ui/Reveal.jsx';
@@ -58,6 +58,28 @@ export default function Services() {
         {services.map((service, i) => (
           <ServiceCard key={service.id} service={service} index={i} />
         ))}
+        {/* Closing tile — completes the grid and invites custom requests */}
+        <Reveal as="li" delay={210} className="h-full">
+          <a
+            href="#contact"
+            className="group relative flex h-full min-h-64 flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-electric-500 to-electric-700 p-6 text-white transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_80px_-30px_rgba(46,107,255,0.9)]"
+          >
+            <div className="bg-grid absolute inset-0 opacity-40" aria-hidden="true" />
+            <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/15">
+              <Sparkles className="h-[1.35rem] w-[1.35rem]" aria-hidden="true" />
+            </span>
+            <div className="relative">
+              <h3 className="text-lg font-semibold leading-snug">Need something specific?</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/80">
+                Tell us about your data and we&apos;ll design the right workflow for it.
+              </p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
+                Talk to us
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </span>
+            </div>
+          </a>
+        </Reveal>
       </ul>
     </Section>
   );

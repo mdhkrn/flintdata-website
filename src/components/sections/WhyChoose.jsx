@@ -13,7 +13,7 @@ export default function WhyChoose() {
       <SectionHeading
         id="why-title"
         align="center"
-        eyebrow="Why Choose FlintData?"
+        eyebrow="Why Choose Flint Data?"
         title="Quality you can build on. Partnership you can rely on."
         lead="We treat data as the foundation of every model — so we hold it to the standard your AI deserves."
       />

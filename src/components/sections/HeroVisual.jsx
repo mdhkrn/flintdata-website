@@ -177,7 +177,7 @@ export default function HeroVisual() {
           <div className="flex min-w-0 gap-1 overflow-hidden text-[11px] font-medium">
             <span className="rounded-md bg-white/10 px-2.5 py-1 text-white">frame_0142.jpg</span>
             <span className="hidden rounded-md px-2.5 py-1 text-slate-400 sm:inline">transcript.txt</span>
-            <span className="hidden rounded-md px-2.5 py-1 text-slate-400 md:inline">sweep.pcd</span>
+            <span className="hidden rounded-md px-2.5 py-1 text-slate-400 md:inline">speech.wav</span>
           </div>
           <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-300">
             <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-emerald-300" />

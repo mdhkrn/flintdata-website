@@ -2,7 +2,6 @@ import { ShieldCheck, Crosshair, Expand } from 'lucide-react';
 import Section from '../ui/Section.jsx';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import Reveal from '../ui/Reveal.jsx';
-import Placeholder from '../ui/Placeholder.jsx';
 
 const pillars = [
   {
@@ -30,12 +29,6 @@ const pipeline = [
   { label: 'Model-ready', width: 'w-[50%]', color: 'bg-navy-900' },
 ];
 
-const facts = [
-  { label: 'Founded', value: '[Placeholder: Year]' },
-  { label: 'Headquarters', value: '[Placeholder: City, Country]' },
-  { label: 'Team', value: '[Placeholder: Team size]' },
-];
-
 export default function About() {
   return (
     <Section id="about" tone="light" labelledBy="about-title">
@@ -45,12 +38,12 @@ export default function About() {
           <SectionHeading
             id="about-title"
             tone="light"
-            eyebrow="About FlintData"
+            eyebrow="About Flint Data"
             title="The human layer behind better AI systems."
           />
           <Reveal delay={100} className="mt-7 space-y-5 text-[1.05rem] leading-relaxed text-slate-600">
             <p>
-              FlintData is an AI data annotation and research company. We help organizations build better AI systems
+              Flint Data is an AI data annotation and research company. We help organizations build better AI systems
               through reliable, accurate and scalable data solutions — turning raw, unstructured information into
               training and evaluation data that models can genuinely learn from.
             </p>
@@ -103,17 +96,6 @@ export default function About() {
                 ))}
               </div>
               <figcaption className="mt-4 text-xs text-slate-500">Conceptual illustration of our data refinement flow.</figcaption>
-
-              <dl className="mt-9 grid gap-4 border-t border-white/10 pt-7 sm:grid-cols-3">
-                {facts.map((f) => (
-                  <div key={f.label}>
-                    <dt className="text-xs font-medium uppercase tracking-wider text-slate-400">{f.label}</dt>
-                    <dd className="mt-2 text-sm">
-                      <Placeholder>{f.value}</Placeholder>
-                    </dd>
-                  </div>
-                ))}
-              </dl>
             </div>
           </figure>
         </Reveal>

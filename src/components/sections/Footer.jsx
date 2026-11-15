@@ -1,10 +1,7 @@
-import { Linkedin, Twitter, Github, Youtube, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
+import { Mail, ArrowUp } from 'lucide-react';
 import Container from '../ui/Container.jsx';
 import Logo from '../ui/Logo.jsx';
-import Placeholder from '../ui/Placeholder.jsx';
-import { company, navLinks, services, socialLinks } from '../../data/content.js';
-
-const socialIcons = { linkedin: Linkedin, x: Twitter, github: Github, youtube: Youtube };
+import { company, navLinks, services } from '../../data/content.js';
 
 function FooterColumn({ title, children }) {
   return (
@@ -34,22 +31,6 @@ export default function Footer() {
               {company.description}
             </p>
             <p className="mt-5 text-sm font-medium text-white">{company.tagline}</p>
-            <ul className="mt-7 flex gap-2.5" aria-label="Social media">
-              {socialLinks.map((s) => {
-                const Icon = socialIcons[s.id];
-                return (
-                  <li key={s.id}>
-                    <a
-                      href={s.href}
-                      aria-label={`${s.label} (placeholder link)`}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-slate-400 transition hover:-translate-y-0.5 hover:border-electric-400 hover:bg-electric-500/10 hover:text-white"
-                    >
-                      <Icon className="h-4 w-4" aria-hidden="true" />
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
           </div>
 
           <div className="lg:col-span-2">
@@ -85,15 +66,9 @@ export default function Footer() {
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-3">
                   <Mail className="mt-0.5 h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <Placeholder>{company.email}</Placeholder>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <Placeholder>{company.phone}</Placeholder>
-                </li>
-                <li className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
-                  <Placeholder>{company.address}</Placeholder>
+                  <a href={`mailto:${company.email}`} className="transition hover:text-white">
+                    {company.email}
+                  </a>
                 </li>
               </ul>
             </FooterColumn>
@@ -101,16 +76,16 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col items-start justify-between gap-4 border-t border-white/10 py-7 text-xs sm:flex-row sm:items-center">
-          <p>
-            © {year} FlintData. All rights reserved.{' '}
-            <Placeholder>Registered company name &amp; number</Placeholder>
+          <p className="leading-relaxed">
+            © {year} Flint Data. All rights reserved.
+            <span className="mx-2 text-slate-600" aria-hidden="true">·</span>
+            <a href={`mailto:${company.email}`} className="transition hover:text-white">
+              {company.email}
+            </a>
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="transition hover:text-white">
+            <a href="#privacy-policy" className="transition hover:text-white">
               Privacy Policy
-            </a>
-            <a href="#" className="transition hover:text-white">
-              Terms
             </a>
             <a
               href="#home"

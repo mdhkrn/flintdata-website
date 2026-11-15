@@ -42,7 +42,7 @@ export default function Navbar() {
       }`}
     >
       <Container className="flex h-[4.5rem] items-center justify-between">
-        <a href="#home" aria-label="FlintData — back to top" className="rounded-md">
+        <a href="#home" aria-label="Flint Data — back to top" className="rounded-md">
           <Logo />
         </a>
 
