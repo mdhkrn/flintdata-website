@@ -30,6 +30,7 @@ export const company = {
   domain: 'flintdata.ai',
   url: 'https://flintdata.ai',
   email: 'contact@flintdata.ai',
+  address: 'Rajapushpa Summit, 5th, ISB Rd, Financial District, Nanakramguda, Hyderabad, Telangana 500032',
   // Legal name used in the Privacy Policy to identify the organisation responsible for the data.
   legalName: 'Flint Data',
 };

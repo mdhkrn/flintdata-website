@@ -1,4 +1,4 @@
-import { Mail, ArrowUp } from 'lucide-react';
+import { Mail, MapPin, ArrowUp } from 'lucide-react';
 import Container from '../ui/Container.jsx';
 import Logo from '../ui/Logo.jsx';
 import { company, navLinks, services, routes, sectionHref } from '../../data/content.js';
@@ -71,6 +71,10 @@ export default function Footer({ page = 'home' }) {
                   <a href={`mailto:${company.email}`} className="transition hover:text-white">
                     {company.email}
                   </a>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-electric-400" aria-hidden="true" />
+                  <address className="not-italic leading-relaxed">{company.address}</address>
                 </li>
               </ul>
             </FooterColumn>
